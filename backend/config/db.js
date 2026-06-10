@@ -3,12 +3,23 @@
 // ================================================================
 const mysql = require('mysql2/promise');
 
+const databaseUrl = process.env.DATABASE_URL || process.env.MYSQL_URL;
+
+const connectionConfig = databaseUrl
+    ? {
+        uri: databaseUrl,
+        ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: true } : undefined
+    }
+    : {
+        host: process.env.DB_HOST || 'localhost',
+        port: process.env.DB_PORT || 3306,
+        user: process.env.DB_USER || 'root',
+        password: process.env.DB_PASSWORD || process.env.DB_PASS || '',
+        database: process.env.DB_NAME || 'flight_booking_db'
+    };
+
 const pool = mysql.createPool({
-    host: process.env.DB_HOST || 'localhost',
-    port: process.env.DB_PORT || 3306,
-    user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || '',
-    database: process.env.DB_NAME || 'flight_booking_db',
+    ...connectionConfig,
     waitForConnections: true,
     connectionLimit: 20,
     queueLimit: 0,

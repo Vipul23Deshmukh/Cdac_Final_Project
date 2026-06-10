@@ -1,4 +1,16 @@
 HELP.md
+.env
+.env.*
+!.env.example
+node_modules/
+coverage/
+logs/
+*.log
+frontend/dist/
+backend/uploads/
+payment-service/bin/
+payment-service/obj/
+payment-service/logs/
 target/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
